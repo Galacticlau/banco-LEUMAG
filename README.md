@@ -51,7 +51,7 @@ Se usan nombres propios de variables, funciones y archivos en español; las pala
 
 ## Railway
 
-El repositorio incluye `railway.json`, comando de inicio y `/salud`. Está **preparado para desplegar la demostración**, pero este commit no crea un servicio en Railway. Ver [instrucciones de despliegue](documentacion/NFC_Y_RAILWAY.md).
+El repositorio incluye `railway.json`, comando de inicio y `/salud`. La infraestructura de la demostración está configurada en el proyecto autorizado: servicio `leumag-bank` y PostgreSQL exclusivo con base `leumag_bank`. La aplicación aún no usa esa base para persistir datos. Ver [instrucciones de despliegue](documentacion/NFC_Y_RAILWAY.md).
 
 ## Próximas etapas
 

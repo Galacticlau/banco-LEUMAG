@@ -1,13 +1,24 @@
 # Estado de esta entrega
 
-- Primera etapa implementada localmente: arquitectura y diseño navegable con datos ficticios.
-- 8 pruebas automatizadas aprobadas: servidor HTTP, conciliación de 56 cuentas, depósitos/canjes, bloqueos, saldo insuficiente, inventario agotado, entradas inválidas y contrato del lector simulado.
-- Sintaxis de `aplicacion.js` comprobada con Node.js.
-- Revisión visual y de interacción en un navegador real pendiente: no estaba disponible el control de navegador requerido en el entorno. Los sonidos y la adaptación móvil están implementados, pero todavía requieren esa revisión.
-- PostgreSQL, autenticación, permisos reales y NFC físico pendientes según las etapas definidas.
-- Railway configurado en archivos; servicio no creado ni desplegado.
-- Acceso de escritura a GitHub habilitado por la docente; entrega preparada para publicarse en la rama `etapa-1-arquitectura-diseno` de `Galacticlau/banco-LEUMAG`.
+## Etapa 1: arquitectura y diseño
 
-Railway: el enlace proporcionado corresponde al servicio `Postgres` del proyecto `peaceful-patience`, donde también existe `casino-leumag`. No se ha modificado la configuración de esos servicios. El servicio llamado `casino-leumag` ya seguía `Galacticlau/banco-LEUMAG@main`: el primer README disparó un despliegue automático que falló porque aún no había código. La aplicación completa se publica en una rama separada para que su despliegue espere la confirmación del destino.
+- Código integrado en `main` de `Galacticlau/banco-LEUMAG` mediante PR #1.
+- Ocho pruebas automatizadas aprobadas; sintaxis JavaScript comprobada.
+- Diseño navegable con 56 cuentas ficticias. Los cambios de la demo se reinician al recargar.
+- Revisión visual en navegador y pruebas con NFC físico pendientes.
+- Autenticación, permisos reales, tablas y persistencia se implementarán en las siguientes etapas.
 
-El ZIP de la entrega inicial es una copia anterior; para continuar el desarrollo, usar los archivos actuales del repositorio.
+## Infraestructura autorizada
+
+Proyecto Railway: `peaceful-patience` (`f822703c-3c35-4f24-8fc5-f48fd20a6e1e`).
+Entorno: `production` (`3b2ea688-d305-4419-9051-9ffb5f6f18ec`).
+
+- Servicio anterior `casino-leumag` eliminado con autorización de la docente.
+- Nuevo servicio web: `leumag-bank` (`14ab4bcc-92b5-4c7a-af9d-5f73b1293b84`), conectado a este repositorio y su rama `main`.
+- Nueva base exclusiva: `leumag_bank`, en `Postgres-3Ers` (`925bb0bc-bdfe-47a7-bad4-8bae01ebf2cf`), con volumen propio.
+- PostgreSQL original (`0b4e963d-3d40-485c-9a67-62cd96916285`) conservado. No reutilizar su conexión en LEUMAG BANK.
+- Ningún otro proyecto de Railway fue modificado.
+
+La variable `DATABASE_URL` del servicio web debe referenciar `${{Postgres-3Ers.DATABASE_URL}}`. El prototipo todavía no ejecuta consultas ni crea tablas: tener la infraestructura preparada no implica persistencia real.
+
+El ZIP inicial es una copia anterior; usar el repositorio para continuar el desarrollo.

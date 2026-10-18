@@ -25,10 +25,10 @@ Normalizar UID, si se usa, como texto hexadecimal de longitud definida por la ta
 
 ## Desplegar esta demostración en Railway
 
-**Estado: configuración preparada, despliegue no realizado desde este entorno.**
+**Infraestructura creada en el proyecto autorizado.** Servicio web `leumag-bank` y base nueva `leumag_bank` en `Postgres-3Ers`. El Postgres anterior se conserva separado. Consultar `ESTADO_ENTREGA.md` para los identificadores exactos.
 
-1. Revisar la rama `etapa-1-arquitectura-diseno` y confirmar el servicio de destino antes de integrarla a `main`. El servicio llamado `casino-leumag` ya sigue `main` de este repositorio. No reutilizar Postgres como servicio web.
-2. En Railway, crear un proyecto y un servicio conectado al repositorio `Galacticlau/banco-LEUMAG`.
+1. Usar la rama `main`, que incluye la primera etapa. El servicio anterior `casino-leumag` fue eliminado con autorización y reemplazado por `leumag-bank`.
+2. Usar el servicio existente `leumag-bank`, conectado al repositorio `Galacticlau/banco-LEUMAG`. No crear otro proyecto o servicio al repetir el despliegue.
 3. Usar la raíz del repositorio. Node.js 24 está indicado en `package.json`. No hay dependencias externas que instalar.
 4. Comando de inicio: `npm start` (incluido en `railway.json`). El servicio escucha en `0.0.0.0` y en el `PORT` asignado por Railway.
 5. Healthcheck: `/salud`. Configurar el dominio del servicio para abrir la web mediante HTTPS.
@@ -38,6 +38,6 @@ La configuración de healthcheck sigue la [documentación de Railway](https://do
 
 ## Conectar PostgreSQL en etapa 2
 
-Agregar un servicio PostgreSQL en el proyecto, configurar `DATABASE_URL` como referencia al servicio y `SESSION_SECRET` como secreto independiente. Nunca pegar estas variables en archivos versionados. Agregar entonces el controlador SQL, migraciones, credenciales de mínimo privilegio y un mecanismo de creación inicial de la cuenta docente sin contraseña predeterminada.
+Usar la base exclusiva ya creada y la referencia `${{Postgres-3Ers.DATABASE_URL}}` de `DATABASE_URL` y `SESSION_SECRET` como secreto independiente. Nunca pegar estas variables en archivos versionados. Agregar entonces el controlador SQL, migraciones, credenciales de mínimo privilegio y un mecanismo de creación inicial de la cuenta docente sin contraseña predeterminada.
 
 Verificar políticas de respaldo del servicio, probar restauración y ajustar `/salud` o una ruta de disponibilidad para detectar fallos de la base de datos. Separar los datos de demostración de los datos reales. Hasta implementar y probar autorización del servidor, no cargar la nómina real.
