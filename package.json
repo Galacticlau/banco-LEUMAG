@@ -1,0 +1,13 @@
+{
+  "name": "leumag-bank",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Banco escolar LEUMAG · Etapa 1: arquitectura y prototipo visual",
+  "engines": { "node": "24.x" },
+  "scripts": {
+    "start": "node servidor/servidor.js",
+    "dev": "node --watch servidor/servidor.js",
+    "test": "node --test pruebas/*.test.js"
+  }
+}
