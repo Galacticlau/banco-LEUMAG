@@ -1,6 +1,6 @@
 # LEUMAG BANK
 
-**Tu esfuerzo cuenta.** Banco escolar para 56 estudiantes, con monederos de leumagCoins, recompensas y tarjetas físicas NFC.
+**Tu esfuerzo se multiplica.** Banco escolar para 56 estudiantes, con monederos de leumagCoins, recompensas y tarjetas físicas NFC.
 
 ## Estado: etapa 1 · arquitectura y diseño navegable
 
@@ -35,7 +35,8 @@ Los premios, precios, saldos y cursos son ejemplos editables, no decisiones peda
 | Ruta | Responsabilidad |
 | --- | --- |
 | `publico/index.html` | Documento principal y contenedores accesibles |
-| `publico/css/estilos.css` | Identidad visual, estados, adaptación móvil y movimiento reducido |
+| `publico/css/estilos.css` | Estructura y estados de los componentes |
+| `publico/css/identidad-matematica.css` | Paleta, portada geométrica, navegación horizontal, adaptación móvil y animaciones |
 | `publico/js/aplicacion.js` | Vistas, navegación, formularios, confirmaciones y sonido |
 | `publico/js/datos.js` | Crea las 56 cuentas y el catálogo ficticio |
 | `publico/js/simulador.js` | Reglas locales del prototipo; se reemplazarán por solicitudes a la API |

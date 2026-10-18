@@ -1,0 +1,433 @@
+/*
+ * Identidad matemática de LEUMAG BANK.
+ * Capa visual sobre los componentes funcionales de estilos.css.
+ * Orden: paleta → navegación → portada → componentes → móvil → movimiento.
+ */
+
+:root {
+  --acento: #6542bc;
+  --acento-oscuro: #312344;
+  --resalte: #d8f269;
+  --tinta: #292335;
+  --muted: #716b7a;
+  --borde: #ded9e5;
+  --fondo: #fcfaf6;
+  --violeta-suave: #eee6fa;
+  --coral: #ff9981;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+}
+
+body {
+  background-color: var(--fondo);
+  background-image: radial-gradient(#bfb4cd55 .7px, transparent .7px);
+  background-size: 19px 19px;
+}
+
+h1, h2, h3, .saldo-grande, .estadistica strong {
+  font-family: "Trebuchet MS", "Arial", sans-serif;
+}
+
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+  outline-color: var(--acento);
+}
+
+/* Navegación abierta, con todas las secciones al alcance. */
+.barra-lateral {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  padding: 22px max(28px, calc((100vw - 1280px) / 2));
+  background: var(--fondo);
+  color: var(--tinta);
+  border-bottom: 1px solid var(--borde);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.marca {
+  margin: 0;
+  gap: 12px;
+  display: flex;
+  flex-shrink: 0;
+  font-size: 22px;
+  letter-spacing: -.8px;
+}
+
+.marca > span:nth-child(2) { display: block; }
+
+.isotipo {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  color: var(--tinta);
+  background: var(--resalte);
+  border: 1.5px solid var(--tinta);
+  border-radius: 12px;
+  box-shadow: 3px 3px 0 var(--tinta);
+  font-size: 39px;
+  font-weight: 400;
+  letter-spacing: 0;
+  transform: rotate(-7deg);
+}
+
+.marca-bank { color: var(--acento); font-size: 8px; letter-spacing: 2.4px; }
+.barra-lateral .leyenda-nav, .lateral-inferior { display: none; }
+.barra-lateral nav { display: flex; align-items: center; gap: 5px; }
+.enlace-nav {
+  color: #655e71;
+  font-size: 12px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  min-height: 42px;
+  margin: 0;
+  gap: 8px;
+  white-space: nowrap;
+}
+.barra-lateral .enlace-nav > span { display: inline; }
+.barra-lateral .enlace-nav .punto { display: none; }
+.enlace-nav .icono { width: 18px; height: 18px; }
+.enlace-nav:hover { background: var(--violeta-suave); }
+.enlace-nav.activo { background: var(--acento); color: #fff; }
+.gestion + .enlace-nav { margin-top: 0; }
+.zona-principal { margin-left: 0; }
+.barra-superior {
+  background: transparent;
+  border: 0;
+  max-width: 1280px;
+  margin: auto;
+  min-height: 65px;
+  padding: 15px 0;
+}
+.avatar { background: var(--violeta-suave); color: var(--acento); }
+.insignia-demo { background: #fff4d5; color: #765820; border-color: #e8d9af; }
+main { max-width: 1368px; padding-top: 14px; }
+footer { max-width: 1368px; color: var(--muted); }
+.sobrelinea { color: var(--acento); }
+
+/* Portada: cuadrícula de cuaderno y cuerpos geométricos vectoriales. */
+.portada-matematica {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  align-items: center;
+  min-height: 385px;
+  padding: 35px 45px;
+  background: var(--violeta-suave);
+  border: 1.5px solid #d9cbea;
+  border-radius: 28px;
+  overflow: hidden;
+}
+.portada-texto { position: relative; z-index: 1; }
+.sello-club {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #624b81;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+.sello-club > span { font-size: 20px; color: var(--acento); }
+.portada-matematica h1 {
+  margin-top: 17px;
+  font-size: clamp(42px, 4.7vw, 66px);
+  font-weight: 800;
+  letter-spacing: -3px;
+  line-height: 1.06;
+}
+.portada-matematica h1 span {
+  position: relative;
+  color: var(--acento);
+  display: inline-block;
+}
+.portada-matematica h1 span::after {
+  content: "";
+  position: absolute;
+  bottom: -7px;
+  left: 0;
+  width: 94%;
+  height: 10px;
+  border-top: 3px solid var(--acento);
+  border-radius: 50%;
+  transform: rotate(-2deg);
+}
+.portada-texto > p { margin-top: 23px; color: #645974; font-size: 14px; }
+.boton-explorar {
+  background: var(--tinta);
+  color: #fff;
+  border: 1px solid var(--tinta);
+  border-radius: 12px;
+  box-shadow: 4px 4px 0 #b3a0d1;
+  padding: 14px 20px;
+  margin-top: 22px;
+  font-size: 13px;
+}
+.boton-explorar:hover { background: var(--acento); }
+.firma-portada { margin-top: 17px; font-size: 10px; color: #776985; }
+.firma-portada > span { font-size: 17px; margin-right: 5px; }
+.universo-matematico { position: relative; min-width: 0; height: 320px; }
+.escultura { position: absolute; width: 100%; height: 100%; inset: 0; overflow: visible; }
+.etiqueta-formula {
+  position: absolute;
+  padding: 11px 17px;
+  background: #fffdf9;
+  border: 1.5px solid var(--tinta);
+  border-radius: 9px;
+  box-shadow: 4px 4px 0 #bcb0d0;
+  font-family: "Courier New", monospace;
+  font-weight: 700;
+  z-index: 1;
+}
+.formula-arriba { top: 0; right: 15px; font-size: 14px; transform: rotate(7deg); }
+.formula-abajo { bottom: 8px; left: 10px; font-size: 16px; transform: rotate(-5deg); }
+.nota-manuscrita {
+  position: absolute;
+  right: 0;
+  bottom: -18px;
+  color: #705a8d;
+  font-size: 12px;
+  font-style: italic;
+  transform: rotate(-5deg);
+}
+.cinta-ideas {
+  display: flex;
+  justify-content: space-around;
+  gap: 15px;
+  border-block: 1px dashed #bdb2cb;
+  margin: 23px 0 27px;
+  padding: 13px 5px;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: #756183;
+}
+
+/* El saldo conserva su importancia, con apariencia de ficha de aprendizaje. */
+.resumen-grid { grid-template-columns: 1fr 1.15fr; gap: 25px; }
+.tarjeta-monedero {
+  background: var(--resalte);
+  color: var(--tinta);
+  border: 1.5px solid var(--tinta);
+  border-radius: 22px;
+  box-shadow: 5px 5px 0 #c1d17f;
+  padding: 24px 28px;
+  min-height: 240px;
+}
+.tarjeta-arriba { font-family: "Courier New", monospace; font-size: 11px; font-weight: 700; }
+.estado-tarjeta { border-color: #789144; background: #e9f7b5; color: #344512; }
+.estado-tarjeta i { background: #506c1a; }
+.saldo-etiqueta { color: #48532d; margin-top: 12px; }
+.saldo-grande { font-size: 48px; font-weight: 800; letter-spacing: -2px; }
+.saldo-grande small { color: #435424; }
+.texto-moneda { color: #596737; }
+.numero-tarjeta { color: #394727; font-size: 13px; letter-spacing: 0; font-weight: 600; }
+.tarjeta-abajo { margin-top: 22px; }
+.tarjeta-abajo small { color: #4f5c33; }
+.nfc-tarjeta { color: var(--tinta); }
+.simbolo-saldo {
+  position: absolute;
+  right: 40px;
+  bottom: 10px;
+  color: #657b2226;
+  font-size: 200px;
+  line-height: 1;
+  font-weight: 400;
+  z-index: -1;
+  transform: rotate(-14deg);
+  pointer-events: none;
+}
+.acciones-tarjeta { margin-top: 11px; }
+.acciones-tarjeta a, .acciones-tarjeta button { color: var(--acento); font-size: 12px; }
+.estadistica {
+  border-radius: 20px;
+  border-color: #dfd4f0;
+  background: #f0eafa;
+  padding: 21px;
+}
+.estadistica:nth-child(2) { background: #ffe9df; border-color: #f1d6c9; }
+.estadistica > span:nth-child(2) { color: #6c5a7e; font-size: 12px; }
+.estadistica strong { font-size: 30px; font-weight: 750; }
+.estadistica > small { color: #76657d; }
+.simbolo { background: #e3d6f8; color: #6542bc; }
+.ingreso { background: #dcccf4; color: #6741a7; }
+.egreso { background: #ffd4be; color: #9b4e28; }
+.mensaje-meta { background: #fffdf8; border: 1px dashed #c4b5d4; border-radius: 15px; }
+.mensaje-meta .simbolo { background: #f4d0e9; color: #984f86; transform: rotate(-8deg); }
+.mensaje-meta strong { font-size: 13px; }
+.mensaje-meta p { color: #817187; font-size: 11px; }
+
+/* Catálogo: tarjetas con trazos, figuras y respuesta al movimiento. */
+.seccion-titulo h2 { font-size: 24px; letter-spacing: -.9px; }
+.punto-titulo { color: var(--acento); }
+.enlace-texto { color: var(--acento); font-weight: 700; }
+.premios-grid { gap: 22px; }
+.premio {
+  border: 1.5px solid #c8bfce;
+  border-radius: 19px;
+  box-shadow: 3px 4px 0 #ded5e4;
+  transition: transform .2s, box-shadow .2s;
+}
+.premio:hover, .premio:focus-within {
+  transform: translateY(-6px) rotate(-.6deg);
+  box-shadow: 5px 9px 0 #d7c7e7;
+}
+.ilustracion, .tienda-grid .ilustracion {
+  height: 150px;
+  background-image: radial-gradient(#51426230 1px, transparent 1px);
+  background-size: 15px 15px;
+  border-bottom: 1.5px solid #c8bfce;
+}
+.durazno { background-color: #ffd5bc; color: #a95232; }
+.lila { background-color: #e2d3fa; color: #6941a1; }
+.menta { background-color: #def19c; color: #56722b; }
+.azul { background-color: #c9e7f8; color: #326c8f; }
+.figura-premio {
+  background: #fffdf9;
+  border: 1.5px solid var(--tinta);
+  border-radius: 15px;
+  box-shadow: 5px 5px 0 #29233526;
+  transform: rotate(-9deg);
+  transition: transform .25s;
+}
+.premio:hover .figura-premio { transform: rotate(7deg) scale(1.08); }
+.premio:nth-child(2) .figura-premio { border-radius: 50%; }
+.categoria-premio { background: #fffdf9; border: 1px solid #5d4a6f55; color: #574363; font-size: 10px; }
+.decoracion { color: var(--tinta); opacity: .75; }
+.premio-contenido { padding: 20px; }
+.premio h3 { font-size: 17px; }
+.premio p { font-size: 12px; max-width: none; }
+.premio-pie strong { color: var(--acento); font-size: 23px; }
+.premio-contenido > small { font-size: 10px; }
+.boton.circular { background: var(--resalte); border-color: var(--tinta); width: 38px; height: 38px; }
+.boton.primario { background: var(--acento); border-color: var(--acento); border-radius: 11px; }
+.boton.primario:hover:not(:disabled) { background: #523299; }
+.boton.texto { color: var(--acento); }
+.panel { border-color: #ddd3e5; border-radius: 19px; }
+.movimientos-inicio { margin-top: 32px; }
+.positivo strong { color: #6c44b0; }
+.lista-movimientos li { border-color: #eee8f4; }
+.filtro.seleccionado { background: var(--acento); border-color: var(--acento); }
+.metricas-admin article { border-radius: 18px; border-color: #d8c8e9; }
+.metricas-admin article:nth-child(1) { background: #eee6fa; }
+.metricas-admin article:nth-child(2) { background: #e9f4c7; }
+.metricas-admin article:nth-child(3) { background: #ffeadf; }
+.etiqueta { background: #e8f3c8; color: #4e6426; }
+.etiqueta.bloqueada { background: #ffe0d8; color: #943f2d; }
+.lector-panel {
+  background-color: #f4eefb;
+  background-image: linear-gradient(#dfd3ef44 1px, transparent 1px), linear-gradient(90deg,#dfd3ef44 1px,transparent 1px);
+  background-size: 25px 25px;
+}
+.ondas {
+  color: var(--acento);
+  background: #fffdf9;
+  border: 2px solid #8963c1;
+  box-shadow: 0 0 0 15px #e5d6f7, 0 0 0 30px #eee4f9;
+}
+.confirmacion-panel { border-top: 5px solid var(--coral); }
+.paso, .mensaje-seguridad { color: #766583; }
+.espera { color: #a090af; }
+.saldo-terminal { border-color: #e3d8ed; }
+.exito { background: var(--resalte); color: var(--tinta); }
+dialog { border: 1.5px solid var(--tinta); border-radius: 21px; }
+dialog::backdrop { background: #271a4266; }
+#avisos { background: var(--acento-oscuro); }
+
+/* Adaptación: se conserva el texto de la navegación también en el celular. */
+@media (max-width: 1350px) {
+  .barra-lateral { padding: 20px 28px; }
+  .barra-superior { margin-inline: 44px; }
+}
+@media (max-width: 1150px) {
+  .barra-superior { margin-inline: 28px; padding-inline: 0; }
+  .enlace-nav { padding-inline: 10px; font-size: 11px; }
+  .portada-matematica { padding: 30px; }
+  .portada-matematica h1 { font-size: 54px; }
+  .resumen-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 900px) {
+  .barra-lateral { flex-wrap: wrap; gap: 20px; }
+  .barra-lateral nav { flex: 1; justify-content: flex-end; }
+  .enlace-nav { padding: 10px; }
+  .enlace-nav .icono { display: none; }
+  .portada-matematica h1 { font-size: 46px; letter-spacing: -2px; }
+  .universo-matematico { height: 270px; }
+  .formula-arriba { right: 0; font-size: 11px; }
+  .formula-abajo { font-size: 12px; left: 0; }
+  .nota-manuscrita { font-size: 10px; }
+  .cinta-ideas { letter-spacing: .3px; font-size: 9px; }
+  .resumen-grid { gap: 16px; }
+  .estadistica { padding: 17px; }
+  .estadistica strong { font-size: 26px; }
+  .premios-grid { gap: 15px; }
+  .premio-contenido { padding: 16px; }
+}
+@media (max-width: 650px) {
+  .barra-lateral { display: flex; padding: 16px 19px 12px; gap: 16px; }
+  .marca { display: flex; font-size: 19px; margin: 0; }
+  .isotipo { width: 34px; height: 34px; font-size: 32px; border-radius: 9px; }
+  .marca-bank { font-size: 7px; }
+  .barra-lateral nav { flex: 0 0 100%; justify-content: flex-start; overflow-x: auto; padding-bottom: 5px; }
+  .enlace-nav { flex: 0 0 auto; padding: 10px 12px; font-size: 11px; min-height: 38px; }
+  .barra-superior { margin-inline: 19px; padding: 10px 0; min-height: 52px; }
+  .barra-superior > span { font-size: 9px; }
+  .zona-principal { margin: 0; }
+  main { padding: 8px 19px 10px; }
+  .portada-matematica { grid-template-columns: 1fr; padding: 26px 24px 21px; border-radius: 22px; }
+  .portada-matematica h1 { font-size: 46px; letter-spacing: -2.5px; }
+  .sello-club { font-size: 8px; letter-spacing: 1.2px; }
+  .portada-texto > p { font-size: 12px; margin-top: 20px; }
+  .boton-explorar { font-size: 12px; margin-top: 18px; }
+  .firma-portada { font-size: 9px; }
+  .universo-matematico { height: 205px; margin-top: 26px; }
+  .escultura { width: 100%; height: 100%; }
+  .etiqueta-formula { padding: 8px 11px; }
+  .formula-arriba { top: -2px; font-size: 10px; }
+  .formula-abajo { bottom: 0; font-size: 11px; }
+  .nota-manuscrita { display: none; }
+  .cinta-ideas { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-block: 18px 23px; text-align: center; font-size: 9px; }
+  .resumen-grid { grid-template-columns: 1fr; }
+  .tarjeta-monedero { min-height: 240px; }
+  .estadistica { padding: 19px; }
+  .seccion-titulo h2 { font-size: 19px; }
+  .seccion-titulo p { font-size: 11px; }
+  .premios-grid, .tienda-grid { gap: 14px; }
+  .ilustracion, .tienda-grid .ilustracion { height: 130px; }
+  .premio-contenido { padding: 14px; }
+  .premio h3 { font-size: 14px; }
+  .premio p { font-size: 11px; min-height: 50px; }
+  .premio-pie strong { font-size: 19px; }
+  .premio-contenido > small { font-size: 9px; }
+  .premios-grid > .premio:last-child:nth-child(3) .ilustracion { border-bottom: 0; border-right: 1.5px solid #c8bfce; }
+  .categoria-premio { font-size: 8px; }
+  footer { font-size: 9px; }
+}
+@media (max-width: 370px) {
+  .portada-matematica { padding: 22px 18px; }
+  .portada-matematica h1 { font-size: 40px; }
+  .premios-grid, .tienda-grid { grid-template-columns: 1fr; }
+  .premios-grid > .premio:last-child:nth-child(3) { display: block; }
+  .premios-grid > .premio:last-child:nth-child(3) .ilustracion { border-right: 0; border-bottom: 1.5px solid #c8bfce; }
+}
+
+/* Animaciones breves. Nunca se requiere movimiento para comprender una acción. */
+@keyframes entrar-geometria {
+  from { opacity: 0; transform: translateY(14px) rotate(-8deg); }
+  to { opacity: 1; transform: translateY(0) rotate(0); }
+}
+@keyframes pulso {
+  to { transform: scale(1.05); box-shadow: 0 0 0 20px #e5d6f7, 0 0 0 38px #eee4f9; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pieza-triangulo { transform-origin: center; animation: entrar-geometria .9s ease-out both; }
+  .pieza-circulo { transform-origin: center; animation: entrar-geometria 1.2s ease-out both; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

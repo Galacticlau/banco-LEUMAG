@@ -1,9 +1,9 @@
 /* LEUMAG BANK · Colores, estructura, componentes y adaptación por pantalla. */
 
 :root {
-  --verde:#174d3f;
-  --verde-oscuro:#102c27;
-  --lima:#d5f598;
+  --acento:#174d3f;
+  --acento-oscuro:#102c27;
+  --resalte:#d5f598;
   --tinta:#1e332d;
   --muted:#728078;
   --borde:#e4e9e4;
@@ -96,7 +96,7 @@ p {
   width:244px;
   position:fixed;
   inset:0 auto 0 0;
-  background:var(--verde-oscuro);
+  background:var(--acento-oscuro);
   color:#f7fff7;
   display:flex;
   flex-direction:column;
@@ -124,7 +124,7 @@ p {
 
 .isotipo {
   font-size:35px;
-  color:var(--lima);
+  color:var(--resalte);
   line-height:1;
   letter-spacing:-9px;
 }
@@ -167,8 +167,8 @@ p {
 }
 
 .enlace-nav.activo {
-  background:var(--lima);
-  color:var(--verde-oscuro);
+  background:var(--resalte);
+  color:var(--acento-oscuro);
   font-weight:650;
 }
 
@@ -176,7 +176,7 @@ p {
   width:6px;
   height:6px;
   border-radius:50%;
-  background:var(--verde);
+  background:var(--acento);
   margin-left:auto;
 }
 
@@ -193,7 +193,7 @@ p {
 }
 
 .comunidad>.icono {
-  color:var(--lima);
+  color:var(--resalte);
   margin-bottom:13px;
 }
 
@@ -238,7 +238,7 @@ p {
   justify-content:center;
   font-size:12px;
   font-weight:700;
-  color:var(--verde);
+  color:var(--acento);
   flex-shrink:0;
 }
 
@@ -337,7 +337,7 @@ main:focus {
   font-size:10px;
   font-weight:700;
   letter-spacing:1.8px;
-  color:var(--verde);
+  color:var(--acento);
   margin-bottom:12px;
 }
 
@@ -366,9 +366,9 @@ main:focus {
 }
 
 .boton.primario {
-  background:var(--verde);
+  background:var(--acento);
   color:#fff;
-  border-color:var(--verde);
+  border-color:var(--acento);
 }
 
 .boton.primario:hover:not(:disabled) {
@@ -392,7 +392,7 @@ main:focus {
 .boton.texto {
   padding:6px 10px;
   background:transparent;
-  color:var(--verde);
+  color:var(--acento);
   font-size:11px;
   min-height:35px;
 }
@@ -408,7 +408,7 @@ main:focus {
   margin-bottom:18px;
 }
 
-.tarjeta-bancaria {
+.tarjeta-monedero {
   border-radius:18px;
   padding:25px 28px;
   color:#fff;
@@ -447,7 +447,7 @@ main:focus {
 .estado-tarjeta i {
   width:5px;
   height:5px;
-  background:var(--lima);
+  background:var(--resalte);
   border-radius:50%;
 }
 
@@ -474,7 +474,7 @@ main:focus {
 
 .saldo-grande small {
   font-size:17px;
-  color:var(--lima);
+  color:var(--resalte);
   letter-spacing:0;
   font-weight:500;
   margin-left:4px;
@@ -511,7 +511,7 @@ main:focus {
 .nfc-tarjeta {
   width:30px;
   height:30px;
-  color:var(--lima);
+  color:var(--resalte);
 }
 
 .orbita {
@@ -543,7 +543,7 @@ main:focus {
   display:flex;
   align-items:center;
   gap:7px;
-  color:var(--verde);
+  color:var(--acento);
   background:none;
   border:0;
   padding:7px 0;
@@ -663,7 +663,7 @@ main:focus {
 
 .enlace-texto {
   font-size:11px;
-  color:var(--verde);
+  color:var(--acento);
   display:flex;
   align-items:center;
   gap:8px;
@@ -904,9 +904,9 @@ footer b {
 }
 
 .filtro.seleccionado {
-  background:var(--verde);
+  background:var(--acento);
   color:#fff;
-  border-color:var(--verde);
+  border-color:var(--acento);
 }
 
 .tienda-grid {
@@ -1071,7 +1071,7 @@ td small {
   align-items:center;
   justify-content:center;
   background:#eef5e8;
-  color:var(--verde);
+  color:var(--acento);
   margin:57px auto 45px;
 }
 
@@ -1288,7 +1288,7 @@ dialog .nota {
   display:grid;
   place-items:center;
   margin:20px auto;
-  background:var(--lima);
+  background:var(--resalte);
   border-radius:50%;
   animation:aparecer .4s ease;
 }
@@ -1313,7 +1313,7 @@ dialog .nota {
   bottom:24px;
   left:50%;
   transform:translate(-50%,15px);
-  background:var(--verde-oscuro);
+  background:var(--acento-oscuro);
   color:#fff;
   padding:15px 22px;
   border-radius:10px;
@@ -1337,7 +1337,7 @@ dialog .nota {
   left:15px;
   z-index:50;
   background:#fff;
-  color:var(--verde);
+  color:var(--acento);
   padding:12px;
 }
 
@@ -1370,7 +1370,7 @@ dialog .nota {
   .ilustracion {
     height:165px;
   }
-  .tarjeta-bancaria {
+  .tarjeta-monedero {
     min-height:280px;
   }
   .estadistica {
@@ -1405,7 +1405,7 @@ dialog .nota {
   .resumen-grid {
     gap:16px;
   }
-  .tarjeta-bancaria {
+  .tarjeta-monedero {
     padding:23px;
   }
   .estadistica {
@@ -1565,7 +1565,7 @@ dialog .nota {
     grid-template-columns:1fr;
     gap:17px;
   }
-  .tarjeta-bancaria {
+  .tarjeta-monedero {
     min-height:257px;
     padding:24px;
   }

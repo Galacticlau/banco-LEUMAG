@@ -50,7 +50,7 @@ El adaptador Android y el futuro adaptador USB deberán entregar ese mismo forma
 
 ## Diseño y accesibilidad
 
-`estilos.css` define colores compartidos con variables CSS como `--verde`. Las consultas `@media` cambian las columnas y la navegación según el ancho. Se incluyen etiquetas de formularios, indicadores de foco, estados deshabilitados, región de avisos y respeto por `prefers-reduced-motion`. El sonido empieza desactivado y el resultado también se informa con texto.
+`estilos.css` contiene la estructura de los componentes. `identidad-matematica.css` define la identidad visual con variables como `--acento`, una portada geométrica SVG y navegación horizontal. La segunda hoja se carga después para aplicar el tema sin mezclarlo con las reglas de negocio. Las consultas `@media` cambian las columnas y la navegación según el ancho. Se incluyen etiquetas de formularios, indicadores de foco, estados deshabilitados, región de avisos y respeto por `prefers-reduced-motion`. El sonido empieza desactivado y el resultado también se informa con texto.
 
 Los iconos son SVG locales. No se descargan fuentes ni imágenes de servicios externos. `escapar()` transforma caracteres especiales antes de insertar texto editable en el HTML, por ejemplo un motivo de depósito escrito por la persona que prueba la demo.
 
