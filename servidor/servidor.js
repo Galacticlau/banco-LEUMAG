@@ -5,7 +5,7 @@ import { fileURLToPath as rutaDesdeUrl } from 'node:url';
 import { resolve as resolverRuta, extname as extension } from 'node:path';
 
 const carpetaPublica = rutaDesdeUrl(new URL('../publico/', import.meta.url));
-const tipos = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml' };
+const tipos = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png' };
 
 export function crearServidorWeb() {
   return crearServidor(async (solicitud, respuesta) => {

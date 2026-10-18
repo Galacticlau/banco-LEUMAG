@@ -6,7 +6,7 @@
 
 Esta versión es un **prototipo con datos ficticios**. Incluye monedero, catálogo de recompensas, historial, terminal y administración de 56 cuentas de ejemplo. Permite simular depósitos, canjes y bloqueos, con confirmación, animación y sonidos opcionales.
 
-Los cambios existen **solo en la memoria de cada pestaña** y se reinician al recargar. No hay autenticación, PostgreSQL conectado ni lectura NFC real. El selector de vistas no representa permisos. No ingresar datos reales de estudiantes en esta versión.
+Los cambios existen **solo en la memoria de cada pestaña** y se reinician al recargar. No hay autenticación, PostgreSQL conectado ni lectura NFC real. Los espacios separados y sus comprobaciones de interfaz no sustituyen la autorización del servidor. No ingresar datos reales de estudiantes en esta versión.
 
 ## Ejecutar
 
@@ -20,13 +20,15 @@ Abrir http://localhost:3000. Para reinicio automático del servidor: `npm run de
 
 ## Recorrido para revisar el diseño
 
-1. **Mi monedero:** revisar saldo, tarjeta, resumen y últimas operaciones.
-2. **Recompensas:** elegir un premio, revisar el descuento y confirmar el canje de prueba.
-3. **Movimientos:** filtrar depósitos o canjes de Estudiante 01.
-4. **Administración:** buscar entre las 56 cuentas y simular un depósito con motivo.
-5. **Terminal de pagos:** identificar una tarjeta ficticia, elegir recompensa y confirmar.
-6. Probar Estudiante 18 o 39: sus tarjetas empiezan bloqueadas. Se desbloquean desde Administración.
-7. Activar el sonido con el botón superior y repetir una lectura o canje. Recargar para restablecer todo.
+1. La **bienvenida** ofrece dos accesos e incorpora el logo original Profe Clau.
+2. **Estudiantes** (`#estudiante/ingreso`): escribir una tarjeta ficticia, por ejemplo `DEMO-0002`, y simular la lectura. Se muestra la cuenta de ese estudiante: saldo, tarjeta, recompensas e historial propio.
+3. Consultar un premio no descuenta saldo ni reserva unidades. La docente aprueba los canjes desde su terminal.
+4. **Salir** vuelve a la bienvenida y elimina la identidad de la interfaz. Los cambios ficticios de esa pestaña se conservan hasta recargar.
+5. **Docente** (`#docente/ingreso`): entrar mediante el botón explícito de demostración, sin contraseña. Hay resumen, cuentas, terminal, catálogo e historial global con filtro por cuenta.
+6. En **Cuentas**, consultar movimientos, editar nombre/curso ficticios, depositar con motivo y bloquear/desbloquear tarjetas. En **Catálogo**, crear o editar premios, precios y existencias; poner 0 unidades marca el premio como agotado.
+7. En **Terminal**, simular una lectura, elegir recompensa, revisar el saldo resultante y confirmar el canje.
+8. Las tarjetas `DEMO-0018` y `DEMO-0039` comienzan bloqueadas: no permiten entrar como estudiante ni realizar canjes. Se desbloquean desde Cuentas.
+9. Activar el sonido con el botón superior y repetir una lectura o canje. Recargar para restablecer todo.
 
 Los premios, precios, saldos y cursos son ejemplos editables, no decisiones pedagógicas definitivas. LC significa leumagCoins y no representa dinero real.
 
@@ -37,6 +39,10 @@ Los premios, precios, saldos y cursos son ejemplos editables, no decisiones peda
 | `publico/index.html` | Documento principal y contenedores accesibles |
 | `publico/css/estilos.css` | Estructura y estados de los componentes |
 | `publico/css/identidad-matematica.css` | Paleta, portada geométrica, navegación horizontal, adaptación móvil y animaciones |
+| `publico/css/espacios.css` | Bienvenida, accesos, firma con logo y herramientas docentes |
+| `publico/js/accesos.js` | Resolución de rutas, identificación ficticia y acciones disponibles por rol |
+| `publico/js/vistas-acceso.js` | Pantallas de bienvenida e ingreso |
+| `publico/imagenes/logo-profe.png` | Logo original proporcionado por la docente, sin modificar |
 | `publico/js/aplicacion.js` | Vistas, navegación, formularios, confirmaciones y sonido |
 | `publico/js/datos.js` | Crea las 56 cuentas y el catálogo ficticio |
 | `publico/js/simulador.js` | Reglas locales del prototipo; se reemplazarán por solicitudes a la API |

@@ -8,7 +8,9 @@
 
 ```js
 const estado = {
-  vista: 'inicio',
+  vista: 'acceso',
+  rol: null,
+  estudianteId: null,
   sonido: false,
   identificada: null,
 };
@@ -20,11 +22,21 @@ const estado = {
 
 Cada archivo tiene una responsabilidad. `export` permite compartir una función; `import` permite usarla desde otro archivo. Por ejemplo, `aplicacion.js` importa `registrarCanje` desde `simulador.js`.
 
-`aplicacion.js` conserva las vistas juntas porque aún es un prototipo pequeño. Cuando conectemos la API, extraeremos las vistas a módulos si eso mejora su lectura.
+`vistas-acceso.js` contiene la bienvenida y las dos entradas. `accesos.js` define las rutas y las acciones de cada espacio. `aplicacion.js` conecta esas piezas con las vistas de cuentas, recompensas y gestión.
+
+## Dos espacios, una fuente de datos de demostración
+
+La URL `#estudiante/ingreso` abre la lectura simulada. `identificarCuenta()` busca la referencia y rechaza tarjetas desconocidas o bloqueadas; después guardamos el `estudianteId` identificado. `cuentaActual()` y los filtros de movimientos usan ese identificador, en vez de fijar siempre Estudiante 01.
+
+El panel `#docente/ingreso` tiene un botón para entrar a una demostración libre. El rol cambia los menús, las rutas y las acciones disponibles. `permiteAccion()` se ejecuta antes de despachar un clic; los formularios docentes también verifican el rol. Esto evita mezclar las experiencias al probar la interfaz, pero **no es autenticación ni protege datos reales**: todos los datos siguen en el navegador.
+
+`cerrarSesion()` limpia la identidad, los filtros y la tarjeta identificada. Un contador de lecturas invalida respuestas pendientes al salir o cambiar de pantalla; una lectura tardía no debe abrir una cuenta después de salir. Recargar la página exige volver a entrar y restaura los datos ficticios.
+
+El catálogo docente permite crear y editar premios. Las cuentas permiten editar nombre y curso. El saldo nunca se edita directamente: se cambia mediante un depósito o un canje con su correspondiente movimiento.
 
 ## Recorrido de un canje de prueba
 
-1. La tarjeta de recompensa incluye `data-accion="canjear"` y `data-id` con su identificador. Los atributos `data-*` son datos propios asociados a un elemento HTML.
+1. El estudiante consulta recompensas con `data-accion="canjear"`: esta acción abre información y no descuenta. La docente identifica la tarjeta en Terminal y usa `data-accion="terminal-canjear"`. Los atributos `data-*` son datos propios asociados a un elemento HTML.
 2. Un manejador de clics busca el botón con `closest('[data-accion]')`. Así también funciona cuando el clic cae sobre el SVG dentro del botón.
 3. `dialogoCanje()` muestra el premio, el precio y el saldo resultante. El elemento nativo `<dialog>` permite cerrar con Escape y mantiene el foco dentro del diálogo.
 4. Al confirmar, `registrarCanje()` busca la cuenta y la recompensa con `find()`. Verifica bloqueo, existencias y saldo.
@@ -50,7 +62,7 @@ El adaptador Android y el futuro adaptador USB deberán entregar ese mismo forma
 
 ## Diseño y accesibilidad
 
-`estilos.css` contiene la estructura de los componentes. `identidad-matematica.css` define la identidad visual con variables como `--acento`, una portada geométrica SVG y navegación horizontal. La segunda hoja se carga después para aplicar el tema sin mezclarlo con las reglas de negocio. Las consultas `@media` cambian las columnas y la navegación según el ancho. Se incluyen etiquetas de formularios, indicadores de foco, estados deshabilitados, región de avisos y respeto por `prefers-reduced-motion`. El sonido empieza desactivado y el resultado también se informa con texto.
+`estilos.css` contiene la estructura de los componentes. `identidad-matematica.css` define la identidad visual con variables como `--acento`, una portada geométrica SVG y navegación horizontal. La segunda hoja se carga después para aplicar el tema sin mezclarlo con las reglas de negocio. `espacios.css` agrega la bienvenida, los accesos separados y la firma con el logo original. Las consultas `@media` cambian las columnas y la navegación según el ancho. Se incluyen etiquetas de formularios, indicadores de foco, estados deshabilitados, región de avisos y respeto por `prefers-reduced-motion`. El sonido empieza desactivado y el resultado también se informa con texto.
 
 Los iconos son SVG locales. No se descargan fuentes ni imágenes de servicios externos. `escapar()` transforma caracteres especiales antes de insertar texto editable en el HTML, por ejemplo un motivo de depósito escrito por la persona que prueba la demo.
 

@@ -10,12 +10,16 @@ probar('Servidor: recursos públicos, salud explícita y rechazo de rutas privad
   const salud = await fetch(`${base}/salud`);
   verificar.equal(salud.status, 200);
   verificar.deepEqual(await salud.json(), { estado: 'disponible', modo: 'demostracion', baseDatosConectada: false });
-  for (const ruta of ['/', '/css/estilos.css', '/js/aplicacion.js', '/js/datos.js', '/js/simulador.js', '/js/iconos.js', '/js/lector.js']) {
+  for (const ruta of ['/', '/css/estilos.css', '/js/aplicacion.js', '/js/datos.js', '/js/simulador.js', '/js/iconos.js', '/js/lector.js', '/js/accesos.js', '/js/vistas-acceso.js', '/css/espacios.css']) {
     const respuesta = await fetch(base + ruta);
     verificar.equal(respuesta.status, 200, ruta);
     verificar.equal(respuesta.headers.get('x-content-type-options'), 'nosniff');
     verificar.ok((await respuesta.text()).length > 50);
   }
+  const logo = await fetch(`${base}/imagenes/logo-profe.png`);
+  verificar.equal(logo.status, 200);
+  verificar.equal(logo.headers.get('content-type'), 'image/png');
+  verificar.ok((await logo.arrayBuffer()).byteLength > 1000);
   for (const ruta of ['/.env', '/package.json', '/documentacion/ARQUITECTURA.md', '/%2e%2e%2fpackage.json', '/no-existe.js']) {
     verificar.equal((await fetch(base + ruta)).status, 404, ruta);
   }

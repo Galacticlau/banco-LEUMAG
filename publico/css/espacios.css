@@ -1,0 +1,82 @@
+/* Accesos y espacios: identidad → bienvenida → formularios → gestión → móvil. */
+.firma-nav { color: var(--muted); font-size: 12px; }
+.identidad-activa { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.salir { padding: 8px 14px; border: 1px solid var(--borde); background: white; }
+.firma-logo { display: flex; gap: 12px; align-items: center; }
+.firma-logo img { width: 66px; height: 66px; object-fit: contain; }
+.bienvenida {
+  display: grid; grid-template-columns: 1.5fr 1fr; align-items: center;
+  gap: 35px; padding: 38px 45px; background: var(--violeta-suave);
+  border: 1.5px solid #d9cbea; border-radius: 28px; position: relative; overflow: hidden;
+}
+.bienvenida h1, .texto-ingreso h1 {
+  font-size: clamp(34px, 4.4vw, 58px); letter-spacing: -2.4px; line-height: 1.1; margin: 22px 0;
+}
+.bienvenida h1 span, .texto-ingreso h1 span { color: var(--acento); }
+.bienvenida p, .texto-ingreso > p { max-width: 470px; font-size: 16px; color: #645974; line-height: 1.7; }
+.formula-bienvenida { display: inline-block; padding: 12px 18px; margin-top: 25px; border: 1px solid var(--tinta); border-radius: 12px; background: var(--resalte); transform: rotate(-2deg); box-shadow: 3px 3px 0 var(--tinta); font-size: 18px; }
+.sello-profesora { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.sello-profesora img { width: min(100%, 275px); height: auto; }
+.sello-profesora > span { font-size: 11px; color: #645974; letter-spacing: 1.5px; }
+.puertas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 28px; }
+.puerta { position: relative; padding: 28px 32px; border: 1.5px solid var(--tinta); border-radius: 24px; box-shadow: 5px 5px 0 var(--tinta); color: var(--tinta); transition: transform .2s, box-shadow .2s; }
+.puerta:hover { transform: translateY(-4px); box-shadow: 5px 9px 0 var(--tinta); }
+.puerta-estudiante { background: #eef6ce; }
+.puerta-docente { background: #ffede5; }
+.numero-puerta { display: block; font-size: 10px; font-weight: 700; letter-spacing: 1.6px; margin-bottom: 24px; }
+.puerta > .icono { position: absolute; top: 25px; right: 28px; width: 36px; height: 36px; }
+.puerta h2 { font-size: 28px; letter-spacing: -.9px; line-height: 1.15; }
+.puerta p { color: #645974; max-width: 350px; margin: 16px 0 24px; min-height: 42px; }
+.puerta .boton { width: fit-content; }
+.ingreso-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 60px; align-items: center; padding: 20px 30px; min-height: 570px; }
+.texto-ingreso > .enlace-texto { display: inline-block; margin-bottom: 36px; }
+.texto-ingreso > .sobrelinea { display: block; }
+.texto-ingreso h1 { font-size: clamp(34px, 4.4vw, 56px); }
+.pistas-acceso { display: grid; gap: 14px; margin-top: 30px; font-size: 13px; color: #645974; }
+.ingreso-grid .lector-panel { padding: 28px; }
+.ingreso-grid .ondas { margin: 25px auto; }
+.acceso-docente { padding: 26px 34px; text-align: center; }
+.acceso-docente > img { width: 170px; height: 170px; object-fit: contain; margin: 0 auto 14px; }
+.acceso-docente > p { margin: 14px 0 24px; color: var(--muted); }
+.acceso-docente > .nota { margin: 20px 0 0; }
+.atajos-docente { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin: 26px 0; }
+.atajo { padding: 25px; color: var(--tinta); }
+.atajo > .icono { width: 30px; height: 30px; color: var(--acento); margin-bottom: 24px; }
+.atajo h2 { font-size: 20px; }
+.atajo p { font-size: 13px; color: var(--muted); line-height: 1.7; margin: 12px 0 20px; }
+.acciones-cuenta { display: flex; gap: 4px; flex-wrap: wrap; }
+.acciones-cuenta .boton { padding: 7px 9px; min-height: 36px; font-size: 12px; }
+.filtro-cuentas { max-width: 350px; }
+.formulario-doble { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+@media (max-width: 1050px) {
+  .ingreso-grid { gap: 30px; padding: 16px 0; }
+  .bienvenida { padding: 30px; }
+  .atajos-docente { gap: 14px; }
+  .atajo { padding: 20px; }
+}
+@media (max-width: 700px) {
+  .firma-nav { display: none; }
+  .bienvenida { grid-template-columns: 1fr; gap: 12px; padding: 28px 24px; }
+  .bienvenida h1, .texto-ingreso h1 { letter-spacing: -1.5px; }
+  .sello-profesora { flex-direction: row; justify-content: flex-start; gap: 12px; }
+  .sello-profesora img { width: 95px; }
+  .sello-profesora > span { max-width: 160px; font-size: 10px; line-height: 1.6; }
+  .formula-bienvenida { font-size: 15px; margin-top: 20px; }
+  .puertas-grid, .ingreso-grid, .atajos-docente { grid-template-columns: 1fr; }
+  .puertas-grid { gap: 22px; }
+  .puerta { padding: 25px; }
+  .puerta h2 { font-size: 26px; }
+  .ingreso-grid { gap: 28px; min-height: auto; }
+  .texto-ingreso > .enlace-texto { margin-bottom: 24px; }
+  .pistas-acceso { gap: 8px; margin-top: 20px; }
+  .barra-superior { flex-wrap: wrap; gap: 12px; }
+  .identidad-activa { font-size: 12px; flex-wrap: wrap; }
+  .herramientas { margin-left: auto; }
+  .firma-logo { justify-content: center; }
+  .firma-logo img { width: 54px; height: 54px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .puerta { transition: none; }
+  .puerta:hover { transform: none; }
+}
