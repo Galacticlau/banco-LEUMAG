@@ -1,7 +1,7 @@
 /** Separación de la demostración. La autorización real pertenece al futuro servidor. */
 export const seccionesPorRol = {
   estudiante: [['inicio', 'cartera', 'Mi cuenta'], ['tienda', 'tienda', 'Recompensas'], ['historial', 'historial', 'Mis movimientos']],
-  docente: [['resumen', 'inicio', 'Resumen'], ['administracion', 'personas', 'Cuentas'], ['terminal', 'terminal', 'Terminal'], ['catalogo', 'tienda', 'Catálogo'], ['historial', 'historial', 'Movimientos']],
+  docente: [['resumen', 'inicio', 'Resumen'], ['actividades', 'destello', 'Actividades'], ['administracion', 'personas', 'Cuentas'], ['terminal', 'terminal', 'Terminal'], ['catalogo', 'tienda', 'Catálogo'], ['historial', 'historial', 'Movimientos']],
 };
 
 export function resolverRuta(fragmento, rol) {
@@ -21,7 +21,7 @@ export function identificarCuenta(datos, referencia) {
 
 const accionesComunes = ['cerrar-dialogo', 'sonido', 'salir'];
 const accionesEstudiante = ['saldo', 'categoria', 'tipo-movimiento', 'mi-tarjeta', 'canjear'];
-const accionesDocente = ['tipo-movimiento', 'depositar', 'bloquear', 'confirmar-bloqueo', 'identificar', 'terminal-canjear', 'confirmar-canje', 'editar-premio', 'nuevo-premio', 'editar-cuenta', 'ver-cuenta'];
+const accionesDocente = ['nueva-actividad', 'seleccionar-participantes', 'autorizar-actividad', 'cerrar-actividad', 'confirmar-cierre-actividad', 'tipo-movimiento', 'depositar', 'bloquear', 'confirmar-bloqueo', 'identificar', 'terminal-canjear', 'confirmar-canje', 'editar-premio', 'nuevo-premio', 'editar-cuenta', 'ver-cuenta'];
 
 export function permiteAccion(rol, accion) {
   if (accionesComunes.includes(accion)) return true;

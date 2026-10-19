@@ -24,13 +24,23 @@ Abrir http://localhost:3000. Para reinicio automático del servidor: `npm run de
 2. **Estudiantes** (`#estudiante/ingreso`): escribir una tarjeta ficticia, por ejemplo `DEMO-0002`, y simular la lectura. Se muestra la cuenta de ese estudiante: saldo, tarjeta, recompensas e historial propio.
 3. Consultar un premio no descuenta saldo ni reserva unidades. La docente aprueba los canjes desde su terminal.
 4. **Salir** vuelve a la bienvenida y elimina la identidad de la interfaz. Los cambios ficticios de esa pestaña se conservan hasta recargar.
-5. **Docente** (`#docente/ingreso`): entrar mediante el botón explícito de demostración, sin contraseña. Hay resumen, cuentas, terminal, catálogo e historial global con filtro por cuenta.
+5. **Docente** (`#docente/ingreso`): entrar mediante el botón explícito de demostración, sin contraseña. Hay resumen, actividades, cuentas, terminal, catálogo e historial global con filtro por cuenta.
 6. En **Cuentas**, consultar movimientos, editar nombre/curso ficticios, depositar con motivo y bloquear/desbloquear tarjetas. En **Catálogo**, crear o editar premios, precios y existencias; poner 0 unidades marca el premio como agotado.
 7. En **Terminal**, simular una lectura, elegir recompensa, revisar el saldo resultante y confirmar el canje.
 8. Las tarjetas `DEMO-0018` y `DEMO-0039` comienzan bloqueadas: no permiten entrar como estudiante ni realizar canjes. Se desbloquean desde Cuentas.
 9. Activar el sonido con el botón superior y repetir una lectura o canje. Recargar para restablecer todo.
 
 Los premios, precios, saldos y cursos son ejemplos editables, no decisiones pedagógicas definitivas. LC significa leumagCoins y no representa dinero real.
+
+## Recompensas por actividades
+
+En **Docente → Actividades**, abre por ejemplo «Terminar la guía 4 · 300 LC» y marca los estudiantes habilitados. Los botones de selección permiten elegir todos, un curso o ninguno.
+
+El puesto permanece abierto: escribir una tarjeta ficticia y simular su lectura abona automáticamente el monto autorizado, registra el movimiento y deja el campo listo para la siguiente tarjeta. No hay que confirmar cada estudiante. Una tarjeta repetida, bloqueada, desconocida o no habilitada no produce un abono.
+
+Puedes **habilitar más estudiantes** mientras trabajan. El panel muestra quién cobró, quién está pendiente y cuánto se abonó. **Finalizar actividad** detiene los cobros y conserva los movimientos de la pestaña. Solo hay una actividad abierta a la vez; abrir otra crea un nuevo registro independiente.
+
+Prueba con estudiantes 01 y 02 habilitados, cobra con `DEMO-0001` y luego repite esa tarjeta: el segundo intento no debe modificar el saldo. Los datos siguen siendo temporales y la lectura física NFC aún no está implementada.
 
 ## Organización
 
@@ -46,6 +56,9 @@ Los premios, precios, saldos y cursos son ejemplos editables, no decisiones peda
 | `publico/js/aplicacion.js` | Vistas, navegación, formularios, confirmaciones y sonido |
 | `publico/js/datos.js` | Crea las 56 cuentas y el catálogo ficticio |
 | `publico/js/simulador.js` | Reglas locales del prototipo; se reemplazarán por solicitudes a la API |
+| `publico/js/actividades.js` | Reglas de apertura, habilitación, cobro único por actividad y cierre |
+| `publico/js/vistas-actividades.js` | Selección de habilitados, puesto continuo y seguimiento |
+| `publico/css/actividades.css` | Diseño adaptable del puesto y animación del abono |
 | `publico/js/lector.js` | Contrato de lectura y adaptador simulado |
 | `publico/js/iconos.js` | Iconos SVG locales, sin servicios externos |
 | `servidor/servidor.js` | Servidor Node.js de archivos públicos y endpoint `/salud` |

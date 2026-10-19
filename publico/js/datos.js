@@ -20,5 +20,5 @@ export function crearDatosDemostracion() {
     { id: 'DEMO-M1', estudianteId: 1, concepto: 'Trabajo colaborativo', monto: 300, fecha: '2026-10-14T15:00:00Z', tipo: 'deposito', saldoPosterior: 2200 },
     ...estudiantes.map(estudiante => ({ id: `DEMO-INICIAL-${estudiante.id}`, estudianteId: estudiante.id, concepto: 'Saldo inicial de demostración', monto: estudiante.id === 1 ? 1900 : estudiante.saldo, fecha: '2026-10-13T15:00:00Z', tipo: 'deposito', saldoPosterior: estudiante.id === 1 ? 1900 : estudiante.saldo })),
   ];
-  return { estudiantes, recompensas, movimientos };
+  return { estudiantes, recompensas, movimientos, actividades: [] };
 }

@@ -22,7 +22,7 @@ probar('Cada tarjeta activa identifica su propia cuenta; bloqueadas y desconocid
 });
 
 probar('La interfaz estudiantil no despacha acciones docentes', () => {
-  for (const accion of ['depositar','confirmar-canje','confirmar-bloqueo','editar-cuenta','nuevo-premio','editar-premio','identificar']) {
+  for (const accion of ['nueva-actividad','autorizar-actividad','confirmar-cierre-actividad','seleccionar-participantes','depositar','confirmar-canje','confirmar-bloqueo','editar-cuenta','nuevo-premio','editar-premio','identificar']) {
     verificar.equal(permiteAccion('estudiante', accion), false, accion);
     verificar.equal(permiteAccion(null, accion), false, accion);
     verificar.equal(permiteAccion('docente', accion), true, accion);

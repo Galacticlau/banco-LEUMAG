@@ -1,0 +1,27 @@
+import { actividadAbierta } from './actividades.js';
+import { icono } from './iconos.js';
+
+export function seleccionParticipantes(datos, escapar, autorizados = []) {
+  const cursos = [...new Set(datos.estudiantes.map(cuenta => cuenta.curso))];
+  return `<fieldset class="seleccion-participantes"><legend>¿Quiénes pueden cobrar?</legend>
+    <p class="nota">Marca a quienes cumplieron la actividad. Puedes habilitar a más estudiantes después.</p>
+    <div class="filtros">${['Todos', ...cursos, 'Ninguno'].map(grupo => `<button type="button" class="filtro" data-accion="seleccionar-participantes" data-grupo="${escapar(grupo)}">${escapar(grupo)}</button>`).join('')}</div>
+    <div class="lista-participantes">${datos.estudiantes.map(cuenta => `<label><input type="checkbox" name="participante" value="${cuenta.id}" data-curso="${escapar(cuenta.curso)}" ${autorizados.includes(cuenta.id) ? 'checked disabled' : ''}><span>${escapar(cuenta.nombre)}<small>${escapar(cuenta.curso)}${autorizados.includes(cuenta.id) ? ' · Ya habilitado/a' : cuenta.bloqueada ? ' · Tarjeta bloqueada' : ''}</small></span></label>`).join('')}</div></fieldset>`;
+}
+
+export function vistaActividades(datos, estado, { escapar, moneda, fecha }) {
+  const actividad = actividadAbierta(datos);
+  const cerradas = datos.actividades.filter(actividad => actividad.estado === 'cerrada');
+  const resultado = estado.resultadoCobro;
+  const puesto = actividad ? `<section class="actividad-cabecera"><div><span class="etiqueta">ABIERTA PARA COBRAR</span><h2>${escapar(actividad.nombre)}</h2><p>Un abono por estudiante · autorizado por la docente</p></div><strong>+${moneda(actividad.monto)}<small>por actividad completada</small></strong></section>
+    <div class="metricas-admin"><article><span>Ya cobraron</span><strong>${actividad.cobros.length} / ${actividad.habilitados.length}</strong></article><article><span>Pendientes de cobro</span><strong>${actividad.habilitados.length - actividad.cobros.length}</strong></article><article><span>Total abonado</span><strong>${moneda(actividad.monto * actividad.cobros.length)}</strong></article></div>
+    <div class="puesto-cobros"><section class="panel lector-panel"><span class="insignia-demo">LECTOR SIMULADO</span><div class="ondas ${estado.leyendo ? 'leyendo' : ''}">${icono('nfc')}</div><h2>${estado.leyendo ? 'Identificando…' : 'Pasa tu tarjeta y suma.'}</h2><p>El abono se registra al identificar una tarjeta habilitada. El puesto queda listo para la siguiente.</p>
+      <form id="formulario-cobrar-actividad" data-id="${actividad.id}"><label class="campo">Tarjeta de prueba<input id="tarjeta-cobro" name="tarjeta" placeholder="DEMO-0001" maxlength="20" autocomplete="off" spellcheck="false" required ${estado.leyendo ? 'disabled' : ''}></label><button type="submit" class="boton primario ancho" ${estado.leyendo ? 'disabled' : ''}>${icono('tarjeta')} ${estado.leyendo ? 'Leyendo…' : 'Simular tarjeta y cobrar'}</button></form>
+      <p class="nota">Demostración sin NFC físico. No necesitas confirmar cada abono.</p>
+      <div class="resultado-cobro ${resultado?.correcto ? 'cobro-correcto' : resultado ? 'cobro-rechazado' : ''}" role="status" aria-live="polite">${resultado ? `${icono(resultado.correcto ? 'check' : 'escudo')}<div><strong>${escapar(resultado.titulo)}</strong><p>${escapar(resultado.mensaje)}</p></div>` : '<p>Esperando la primera tarjeta…</p>'}</div>
+    </section><section class="panel seguimiento-cobros"><div class="seccion-titulo"><h2>Seguimiento de la actividad</h2></div><button class="boton" data-accion="autorizar-actividad" ${estado.leyendo ? 'disabled' : ''}>${icono('mas')} Habilitar más estudiantes</button>
+      <ul class="lista-cobros">${actividad.habilitados.map(id => { const cuenta = datos.estudiantes.find(cuenta => cuenta.id === id); const cobrado = actividad.cobros.some(cobro => cobro.estudianteId === id); return `<li><div><strong>${escapar(cuenta.nombre)}</strong><small>${cuenta.tarjeta}</small></div><span class="etiqueta ${!cobrado && cuenta.bloqueada ? 'bloqueada' : ''}">${cobrado ? '✓ Cobrado' : cuenta.bloqueada ? 'Tarjeta bloqueada' : 'Pendiente'}</span></li>`; }).join('')}</ul>
+      <button class="boton ancho" data-accion="cerrar-actividad">Finalizar actividad</button><p class="nota">Al finalizar se detienen los cobros. Los abonos ya realizados se conservan en esta demo.</p></section></div>` : `<section class="panel actividad-vacia"><span class="simbolo">${icono('destello')}</span><h2>Un logro. Muchas tarjetas.</h2><p>Abre «Terminar la guía», define el abono y habilita a quienes pueden cobrar. Cada estudiante pasa una vez y recibe sus leumagCoins.</p><button class="boton primario" data-accion="nueva-actividad">${icono('mas')} Abrir actividad</button></section>`;
+  return `<div class="encabezado"><div><span class="sobrelinea">ACTIVIDADES / ESPACIO DOCENTE</span><h1>Termina. Acerca. Suma.</h1><p>Abre una recompensa por actividad y recibe las tarjetas una tras otra.</p></div></div>${puesto}
+    ${cerradas.length ? `<section class="panel actividades-cerradas"><h2>Actividades finalizadas</h2><ul class="lista-cobros">${cerradas.map(actividad => `<li><div><strong>${escapar(actividad.nombre)}</strong><small>${fecha(actividad.cerradaEn)} · ${actividad.cobros.length} de ${actividad.habilitados.length} cobraron</small></div><strong>${moneda(actividad.monto * actividad.cobros.length)}</strong></li>`).join('')}</ul></section>` : ''}`;
+}

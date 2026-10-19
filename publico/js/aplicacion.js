@@ -5,8 +5,11 @@ import { icono } from './iconos.js';
 import { seccionesPorRol, resolverRuta, identificarCuenta, permiteAccion } from './accesos.js';
 import { bienvenida, ingresoEstudiante, ingresoDocente } from './vistas-acceso.js';
 
+import { actividadAbierta, abrirActividad, autorizarParticipantes, cobrarActividad, cerrarActividad } from './actividades.js';
+import { vistaActividades, seleccionParticipantes } from './vistas-actividades.js';
+
 const datos = crearDatosDemostracion();
-const estado = { vista: 'acceso', espacio: 'acceso', rol: null, estudianteId: null, referencia: 'DEMO-0001', filtroCuenta: '', sonido: false, saldoVisible: true, categoria: 'Todas', filtro: '', tipoMovimiento: 'todos', identificada: null, leyendo: false };
+const estado = { resultadoCobro: null, vista: 'acceso', espacio: 'acceso', rol: null, estudianteId: null, referencia: 'DEMO-0001', filtroCuenta: '', sonido: false, saldoVisible: true, categoria: 'Todas', filtro: '', tipoMovimiento: 'todos', identificada: null, leyendo: false };
 const contenedor = document.querySelector('#aplicacion');
 const dialogo = document.querySelector('#dialogo');
 const numero = valor => new Intl.NumberFormat('es-CL').format(valor);
@@ -49,7 +52,7 @@ function dibujar() {
   const secciones = estado.rol ? seccionesPorRol[estado.rol] : [];
   const titulo = secciones.find(([vista]) => vista === estado.vista)?.[2] || (estado.espacio === 'docente' ? 'Acceso docente' : estado.espacio === 'estudiante' ? 'Acceso estudiante' : 'Bienvenida');
   const nombre = estado.rol === 'docente' ? 'Docente' : cuentaActual()?.nombre;
-  const vistas = { inicio: vistaInicio, tienda: vistaTienda, historial: vistaHistorial, terminal: vistaTerminal, administracion: vistaAdministracion, resumen: vistaResumenDocente, catalogo: vistaCatalogo };
+  const vistas = { actividades: () => vistaActividades(datos, estado, { escapar, moneda, fecha }), inicio: vistaInicio, tienda: vistaTienda, historial: vistaHistorial, terminal: vistaTerminal, administracion: vistaAdministracion, resumen: vistaResumenDocente, catalogo: vistaCatalogo };
   const contenido = estado.vista === 'acceso' ? bienvenida() : estado.vista === 'ingreso' ? (estado.espacio === 'docente' ? ingresoDocente() : ingresoEstudiante(estado.leyendo, estado.referencia, escapar)) : vistas[estado.vista]();
   contenedor.innerHTML = `
     <header class="barra-lateral">
@@ -145,9 +148,9 @@ function vistaHistorial() {
 }
 function vistaResumenDocente() {
   const saldoTotal = datos.estudiantes.reduce((suma, cuenta) => suma + cuenta.saldo, 0);
-  return `${encabezado('ESPACIO DOCENTE / LEUMAG BANK', 'Tus ideas hacen escuela.', 'Toda tu comunidad, conectada por las ganas de aprender.', '<button class="boton primario" data-accion="depositar">'+icono('mas')+' Reconocer una actividad</button>')}
+  return `${encabezado('ESPACIO DOCENTE / LEUMAG BANK', 'Tus ideas hacen escuela.', 'Toda tu comunidad, conectada por las ganas de aprender.', '<a class="boton primario" href="#docente/actividades">'+icono('nfc')+' Cobros por actividad</a>')}
     <div class="metricas-admin"><article><span>Estudiantes</span><strong>${datos.estudiantes.length}</strong></article><article><span>Moneda en circulación</span><strong>${moneda(saldoTotal)}</strong></article><article><span>Tarjetas bloqueadas</span><strong>${datos.estudiantes.filter(cuenta => cuenta.bloqueada).length}</strong></article></div>
-    <div class="atajos-docente">${[['administracion','personas','Cuentas y tarjetas','Consultar cuentas, depositar y bloquear tarjetas.'],['terminal','nfc','Terminal de canjes','Identificar una tarjeta y aprobar una recompensa.'],['catalogo','tienda','Crear posibilidades','Editar premios, precios y existencias.']].map(([vista,dibujo,titulo,descripcion]) => `<a class="panel atajo" href="${ruta(vista)}">${icono(dibujo)}<h2>${titulo}</h2><p>${descripcion}</p><span class="enlace-texto">Abrir ${icono('flecha')}</span></a>`).join('')}</div>
+    <div class="atajos-docente">${[['actividades','destello','Abre una actividad','Habilita estudiantes y recibe sus tarjetas para abonar.'],['administracion','personas','Cuentas y tarjetas','Consultar cuentas, depositar y bloquear tarjetas.'],['terminal','nfc','Terminal de canjes','Identificar una tarjeta y aprobar una recompensa.'],['catalogo','tienda','Crear posibilidades','Editar premios, precios y existencias.']].map(([vista,dibujo,titulo,descripcion]) => `<a class="panel atajo" href="${ruta(vista)}">${icono(dibujo)}<h2>${titulo}</h2><p>${descripcion}</p><span class="enlace-texto">Abrir ${icono('flecha')}</span></a>`).join('')}</div>
     <section class="panel"><div class="seccion-titulo"><h2>Lo último en la comunidad</h2><a href="${ruta('historial')}" class="enlace-texto">Ver movimientos ${icono('flecha')}</a></div>${listaMovimientos(datos.movimientos.slice(0,5))}</section>`;
 }
 function vistaCatalogo() {
@@ -183,6 +186,25 @@ async function manejarAccion(evento) {
   if (!permiteAccion(estado.rol, accion)) { avisar('Esta acción corresponde a otro espacio de la demostración.'); return; }
   if (accion === 'salir') { cerrarSesion(); location.hash = '#acceso'; navegar(); return; }
   if (accion === 'entrar-docente') { estado.rol = 'docente'; location.hash = '#docente/resumen'; return; }
+  if (accion === 'nueva-actividad') { formularioActividad(); return; }
+  if (accion === 'autorizar-actividad') { formularioAutorizaciones(); return; }
+  if (accion === 'seleccionar-participantes') {
+    dialogo.querySelectorAll('input[name="participante"]:not(:disabled)').forEach(casilla => {
+      casilla.checked = boton.dataset.grupo === 'Todos' || casilla.dataset.curso === boton.dataset.grupo;
+    });
+    return;
+  }
+  if (accion === 'cerrar-actividad') {
+    const actividad = actividadAbierta(datos);
+    if (!actividad) return;
+    secuenciaLectura++; estado.leyendo = false; dibujar();
+    abrirDialogo('Finalizar actividad', `<p><strong>${escapar(actividad.nombre)}</strong></p><p>${actividad.cobros.length} estudiantes cobraron. Quedan ${actividad.habilitados.length - actividad.cobros.length} pendientes.</p><p>Se detendrán los cobros. Los abonos realizados se conservan.</p><button class="boton primario ancho" data-accion="confirmar-cierre-actividad" data-id="${actividad.id}">Finalizar actividad de prueba</button>`); return;
+  }
+  if (accion === 'confirmar-cierre-actividad') {
+    try { cerrarActividad(datos, boton.dataset.id); estado.resultadoCobro = null; dialogo.close(); dibujar(); avisar('Actividad finalizada.'); }
+    catch (error) { avisar(error.message); }
+    return;
+  }
   if (accion === 'nuevo-premio' || accion === 'editar-premio') { editarPremio(Number(boton.dataset.id)); return; }
   if (accion === 'editar-cuenta') { editarCuenta(Number(boton.dataset.id)); return; }
   if (accion === 'ver-cuenta') {
@@ -235,8 +257,38 @@ async function manejarAccion(evento) {
 /** Cerrar la identidad no borra los cambios ficticios de la pestaña. */
 function cerrarSesion() {
   secuenciaLectura++;
-  Object.assign(estado, { rol: null, estudianteId: null, identificada: null, leyendo: false, saldoVisible: true, filtro: '', filtroCuenta: '', tipoMovimiento: 'todos', categoria: 'Todas' });
+  Object.assign(estado, { resultadoCobro: null, rol: null, estudianteId: null, identificada: null, leyendo: false, saldoVisible: true, filtro: '', filtroCuenta: '', tipoMovimiento: 'todos', categoria: 'Todas' });
   if (dialogo.open) dialogo.close();
+}
+function formularioActividad() {
+  if (actividadAbierta(datos)) { location.hash = '#docente/actividades'; avisar('Ya tienes una actividad abierta.'); return; }
+  abrirDialogo('Abrir recompensa por actividad', `<form id="formulario-actividad"><label class="campo">Actividad completada<input name="nombre" maxlength="100" placeholder="Ej. Terminar la guía 4" required></label><label class="campo">Abono por estudiante, en LC<input name="monto" type="number" min="1" max="100000" step="1" placeholder="Ej. 300" required></label>${seleccionParticipantes(datos, escapar)}<p class="nota">Al abrirla autorizas un abono por cada estudiante habilitado, cuando pase su tarjeta.</p><p class="error" id="error-operacion" role="alert"></p><button class="boton primario ancho" type="submit">Abrir actividad de prueba</button></form>`);
+}
+function formularioAutorizaciones() {
+  const actividad = actividadAbierta(datos);
+  if (!actividad) return;
+  abrirDialogo('Habilitar más estudiantes', `<form id="formulario-habilitados" data-id="${actividad.id}"><p>${escapar(actividad.nombre)} · ${moneda(actividad.monto)} por estudiante</p>${seleccionParticipantes(datos, escapar, actividad.habilitados)}<p class="error" id="error-operacion" role="alert"></p><button class="boton primario ancho" type="submit">Agregar habilitados</button></form>`);
+}
+async function leerParaCobro(actividadId, referencia) {
+  if (estado.leyendo || estado.vista !== 'actividades' || estado.rol !== 'docente' || dialogo.open) return;
+  const secuencia = ++secuenciaLectura;
+  estado.leyendo = true; estado.resultadoCobro = null; dibujar();
+  try {
+    const lectura = await identificarTarjetaSimulada(referencia);
+    if (secuencia !== secuenciaLectura || estado.rol !== 'docente' || estado.vista !== 'actividades') return;
+    const { cuenta, movimiento } = cobrarActividad(datos, actividadId, lectura.referencia);
+    estado.resultadoCobro = { correcto: true, titulo: `¡${cuenta.nombre}, recibiste ${numero(movimiento.monto)} LC!`, mensaje: 'Abono registrado. Puede pasar la siguiente tarjeta.' };
+    sonar(true);
+  } catch (error) {
+    if (secuencia !== secuenciaLectura) return;
+    estado.resultadoCobro = { correcto: false, titulo: 'No se realizó el abono', mensaje: error.message };
+  } finally {
+    if (secuencia === secuenciaLectura) {
+      estado.leyendo = false; dibujar();
+      avisar(`${estado.resultadoCobro.titulo} ${estado.resultadoCobro.mensaje}`);
+      document.querySelector('#tarjeta-cobro')?.focus();
+    }
+  }
 }
 function editarCuenta(identificador) {
   const cuenta = datos.estudiantes.find(cuenta => cuenta.id === identificador);
@@ -255,7 +307,7 @@ document.addEventListener('change', evento => {
 });
 document.addEventListener('submit', async evento => {
   const formulario = evento.target;
-  if (!['formulario-ingreso','formulario-deposito','formulario-cuenta','formulario-premio'].includes(formulario.id)) return;
+  if (!['formulario-ingreso','formulario-deposito','formulario-cuenta','formulario-premio','formulario-actividad','formulario-habilitados','formulario-cobrar-actividad'].includes(formulario.id)) return;
   evento.preventDefault();
   const campos = new FormData(formulario);
   if (formulario.id === 'formulario-ingreso') {
@@ -276,7 +328,19 @@ document.addEventListener('submit', async evento => {
     return;
   }
   if (estado.rol !== 'docente') { avisar('Entra al espacio docente para realizar esta acción.'); return; }
+  if (formulario.id === 'formulario-cobrar-actividad') {
+    await leerParaCobro(formulario.dataset.id, String(campos.get('tarjeta')).trim().toUpperCase()); return;
+  }
   try {
+    if (formulario.id === 'formulario-actividad' || formulario.id === 'formulario-habilitados') {
+      const habilitados = campos.getAll('participante').map(Number);
+      if (formulario.id === 'formulario-actividad') {
+        abrirActividad(datos, campos.get('nombre'), Number(campos.get('monto')), habilitados);
+        estado.resultadoCobro = null;
+      } else autorizarParticipantes(datos, formulario.dataset.id, habilitados);
+      dialogo.close(); dibujar(); document.querySelector('#tarjeta-cobro')?.focus();
+      avisar('Actividad lista. Ya pueden pasar las tarjetas habilitadas.'); return;
+    }
     if (formulario.id === 'formulario-deposito') {
       registrarDeposito(datos, Number(campos.get('estudiante')), Number(campos.get('monto')), campos.get('motivo'));
     } else if (formulario.id === 'formulario-cuenta') {

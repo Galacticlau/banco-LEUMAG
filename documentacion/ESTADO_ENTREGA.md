@@ -3,9 +3,10 @@
 ## Etapa 1: arquitectura y diseño
 
 - Código integrado en `main` de `Galacticlau/banco-LEUMAG` mediante PR #1.
-- Doce pruebas automatizadas aprobadas; sintaxis JavaScript comprobada.
+- Diecisiete pruebas automatizadas aprobadas; sintaxis JavaScript comprobada.
 - Logo original Profe Clau integrado en bienvenida, acceso docente y pie del sitio.
 - Accesos separados: consulta de cuenta por tarjeta simulada para estudiantes; resumen, cuentas, depósitos, bloqueos, terminal, catálogo editable e historial global para docentes.
+- Puesto de actividades: abono continuo por tarjeta simulada, habilitados ampliables, seguimiento, cierre y rechazo de cobros repetidos.
 - Las pruebas cubren identificación, separación de acciones y recorrido de depósito/canje/consulta/salida con un DOM mínimo, además del simulador y HTTP.
 - Diseño navegable con 56 cuentas ficticias. Los cambios de la demo se reinician al recargar.
 - Revisión visual en navegador y pruebas con NFC físico pendientes.

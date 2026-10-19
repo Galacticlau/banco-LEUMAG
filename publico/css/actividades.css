@@ -1,0 +1,54 @@
+/* Recompensas por actividades: selección, puesto continuo y seguimiento. */
+.seleccion-participantes { border: 1px solid var(--borde); border-radius: 12px; padding: 15px; margin-block: 18px; min-width: 0; }
+.seleccion-participantes legend { padding-inline: 6px; font-weight: 700; }
+.seleccion-participantes .filtros { flex-wrap: wrap; gap: 6px; margin-block: 12px; }
+.seleccion-participantes .filtro { padding: 7px 10px; }
+.lista-participantes { max-height: 240px; overflow-y: auto; display: grid; gap: 4px; }
+.lista-participantes label { display: flex; align-items: center; gap: 12px; padding: 9px; border-radius: 8px; cursor: pointer; }
+.lista-participantes label:hover { background: var(--violeta-suave); }
+.lista-participantes input { width: 19px; height: 19px; accent-color: var(--acento); flex-shrink: 0; }
+.lista-participantes span { font-size: 13px; }
+.lista-participantes small { display: block; margin-top: 4px; color: var(--muted); font-size: 11px; }
+.actividad-cabecera { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-bottom: 25px; padding: 28px; border: 1.5px solid var(--tinta); border-radius: 22px; background: var(--resalte); box-shadow: 4px 4px 0 var(--tinta); }
+.actividad-cabecera h2 { font-size: 30px; margin: 12px 0; overflow-wrap: anywhere; }
+.actividad-cabecera p { font-size: 12px; }
+.actividad-cabecera > strong { font-size: 40px; white-space: nowrap; }
+.actividad-cabecera strong > small { display: block; font-size: 11px; margin-top: 6px; font-weight: 400; }
+.actividad-cabecera strong > small:first-child { display: inline; font-size: 20px; }
+.puesto-cobros { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin: 26px 0; }
+.puesto-cobros > .panel { padding: 28px; min-width: 0; }
+.resultado-cobro { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 22px; min-height: 100px; padding: 20px; border-radius: 16px; background: #f5f1f8; text-align: left; }
+.resultado-cobro > .icono { flex-shrink: 0; width: 30px; height: 30px; }
+.resultado-cobro p { margin: 8px 0 0; font-size: 13px; }
+.resultado-cobro strong { font-size: 18px; }
+.cobro-correcto { background: #e8f4c9; color: #354913; }
+.cobro-rechazado { background: #fff0dc; color: #7b4815; }
+.lista-cobros { list-style: none; padding: 0; margin: 18px 0; max-height: 390px; overflow-y: auto; }
+.lista-cobros li { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--borde); }
+.lista-cobros strong { font-size: 13px; overflow-wrap: anywhere; }
+.lista-cobros small { display: block; font-size: 11px; color: var(--muted); margin-top: 5px; }
+.lista-cobros .etiqueta { flex-shrink: 0; }
+.actividad-vacia { padding: 45px 30px; text-align: center; background: var(--violeta-suave); }
+.actividad-vacia > .simbolo { margin: 0 auto 20px; }
+.actividad-vacia h2 { font-size: 30px; }
+.actividad-vacia p { max-width: 540px; margin: 18px auto 25px; line-height: 1.8; color: #645974; }
+.actividades-cerradas { padding: 28px; margin-top: 25px; }
+.atajos-docente { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 1100px) {
+  .barra-lateral { flex-wrap: wrap; }
+  .barra-lateral nav { min-width: 0; flex-wrap: wrap; }
+}
+@media (max-width: 700px) {
+  .puesto-cobros, .atajos-docente { grid-template-columns: 1fr; }
+  .actividad-cabecera { align-items: flex-start; flex-direction: column; padding: 24px; }
+  .actividad-cabecera h2 { font-size: 26px; }
+  .puesto-cobros > .panel { padding: 22px; }
+  .lista-cobros li { flex-wrap: wrap; gap: 8px; }
+}
+@media (max-width: 650px) {
+  .barra-lateral nav { flex-wrap: nowrap; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cobro-correcto { animation: celebrar-abono .35s ease-out; }
+  @keyframes celebrar-abono { from { transform: scale(.96); opacity: .5; } to { transform: scale(1); opacity: 1; } }
+}

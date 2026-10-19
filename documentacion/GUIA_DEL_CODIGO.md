@@ -46,6 +46,18 @@ El catálogo docente permite crear y editar premios. Las cuentas permiten editar
 
 Estas comprobaciones del navegador sirven para **probar la experiencia**, no para asegurar cuentas reales. En etapa 2 el backend será quien valide y modifique PostgreSQL; el navegador esperará su respuesta antes de mostrar éxito.
 
+## Un abono por actividad y estudiante
+
+`actividades.js` separa las reglas del puesto de su apariencia, que está en `vistas-actividades.js`. Una actividad tiene identificador propio, nombre, monto, lista de estudiantes habilitados, cobros y estado abierto/cerrado.
+
+`abrirActividad()` registra la autorización docente para una cantidad concreta y una lista concreta. `cobrarActividad()` recibe la referencia de tarjeta, verifica que la actividad siga abierta, identifica la cuenta, revisa el bloqueo, la habilitación y si ya cobró. Solo entonces usa `registrarDeposito()` y vincula el movimiento con `actividadId`. La tarjeta identifica; la autorización proviene de la configuración docente.
+
+No se usa el nombre de la actividad como clave: dos guías pueden tener el mismo nombre, pero cada apertura tiene un identificador distinto. La regla de cobro único se aplica a la pareja **actividad + estudiante**, sin impedir cobrar futuras actividades.
+
+`leerParaCobro()` muestra el resultado y devuelve el foco al lector para recibir la próxima tarjeta. El contador `secuenciaLectura` cancela respuestas pendientes al navegar, salir o iniciar el cierre. No se muestra el saldo completo en el puesto compartido, solo el abono de esa actividad.
+
+En esta demo las comprobaciones son síncronas dentro de una pestaña. Para producción deberán ejecutarse en una transacción de PostgreSQL con una restricción única `(actividad_id, estudiante_id)`, autorización de sesión docente y bloqueo de las filas pertinentes. La inserción del cobro, el movimiento y la actualización del saldo deberán confirmarse juntos. Así dos lectores concurrentes tampoco podrán duplicar un abono. Esto todavía no está implementado.
+
 ## Lector desacoplado
 
 ```js
